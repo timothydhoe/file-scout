@@ -13,13 +13,40 @@ from datetime import datetime
 path = ""
 
 def main():
-	dict ={}
-	dict = get_file_info(r'<FILEPATH>')
+	cwd = os.getcwd()
+	print(f"\nYou are currently at:\n\t👉 {cwd}\n")
+	print("")
+	print(f"Ready to explore the files and folders?")
+	
+	organise_output(cwd)
 
-	for keys, values in dict.items():
-		print(f"{keys}: {values}")
+
+
+def organise_output(path):
+	"""
+	Takes a diretory path
+	Returns a print statement of organised files and folders
+	"""
+	folders = [item for item in os.listdir(path) if os.path.isdir(item)]
+	files = [item for item in os.listdir(path) if os.path.isfile(item)]
+
+	print("📂 Folders:")
+	for f in folders:
+		print(f"  {f}")
+	print("\n📑 Files:")
+	for f in files:
+		print(f"  {f}")
+	print("")
+	# dict ={}
+	# dict = get_file_info(r'<FILEPATH>')
+
+	# for keys, values in dict.items():
+	# 	print(f"{keys}: {values}")
+
 	"""
 	Control input from user
+	
+
 	user_input = input("Give me a path: ")
 	if os.path.exists(<path-to-file>):
 	"""
@@ -124,7 +151,7 @@ def get_file_info(filepath):
 	}
 
 
-# test = os.stat('/Users/timothydhoe/Syntra')
+# test = os.stat('PATH')
 # print(test)
 
 # readable_date = datetime.fromtimestamp(test.st_mtime)
