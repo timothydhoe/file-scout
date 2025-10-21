@@ -18,6 +18,7 @@ def main():
 	Control input from user
 	"""
 	# user_input = input("blah blah")
+	# Or get current working dir? os.getcwd?
 
 
 
@@ -69,7 +70,7 @@ def get_file_info(filepath):
 
 	return {
 		'path': filepath,
-		'size': stats.st_size,
+		'size': format_size(stats.st_size),
 		'modified': datetime.fromtimestamp(stats.st_mtime),
 		'ext': extention[-1],
 	}
@@ -95,7 +96,9 @@ def organise_by_extenstion(file_list):
 	pass
 
 
-def format_size():
+def format_size(size_in_bytes):
+	match size_in_bytes:
+		case 
 	""" format_size
 		converts output to readable
 		1024 bytes = 1KB
