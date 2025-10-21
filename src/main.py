@@ -13,12 +13,56 @@ from datetime import datetime
 path = ""
 
 def main():
-	pass
+	dict ={}
+	dict = get_file_info(r'<FILEPATH>')
+
+	for keys, values in dict.items():
+		print(f"{keys}: {values}")
 	"""
 	Control input from user
+	user_input = input("Give me a path: ")
+	if os.path.exists(<path-to-file>):
 	"""
-	# user_input = input("blah blah")
+	# 
 	# Or get current working dir? os.getcwd?
+
+"""
+print(os.chdir('path'))				# change dir
+print(os.getcwd())					# get current working dir
+print(os.listdir('path'))			# get list of files and folders
+
+os.mkdir('')						# make dir
+os.mkdirs('')						# make nested dirs
+
+os.rmdir							# remove dir
+os.removedirs						# remove dirs, nested
+
+os.rename('og_name.txt' 'new_name.text')		# rename file
+
+os.stat(<filename>)             	# print all info of a file
+	--> .st_size (in bytes)
+	-->	.st_mtime (modification time)
+
+os.walk(<path>)	                	# traverse directory recursively
+for dirpath, dirnames, filenames in os.walk(r'/Users/timothydhoe/Syntra'):
+    print(f"Current path: {dirpath}")
+    print(f"directories: {dirnames}")
+    print(f"files: {filenames}")
+    print("\n\n\n")
+
+os.environ							# get environment variables
+
+os.path.join(<path>, <file>)		# join path without worrying about /
+
+os.path.basename(<filename>)		# get basename
+os.path.dirname(<filename>)			# get dirname
+os,path.split('path/filename')		# gives both
+
+os.path.exists(<path-to-file>)		# check if the path exists or not
+os.path.splitext(<path-to-file>)	# split path and file extension
+dir(os)								# check what methods exists
+
+"""
 
 
 
@@ -42,7 +86,7 @@ def files_by_type(filepath):
 def scan_directory(path):
 	""" 
 	Takes a path
-	returns something? Dunno what yet --> file list
+	Returns something? Dunno what yet --> file list
 """
 	pass
 
@@ -65,14 +109,18 @@ def get_folder_info(folderpath):
 
 
 def get_file_info(filepath):
+	"""
+	Take the path of a file and outputs size, last modified and the extension.
+	"""
 	stats = os.stat(filepath)
 	extention = os.path.splitext(filepath)
+	date = datetime.fromtimestamp(stats.st_mtime)
 
 	return {
 		'path': filepath,
 		'size': format_size(stats.st_size),
-		'modified': datetime.fromtimestamp(stats.st_mtime),
-		'ext': extention[-1],
+		'modified': date.strftime("%Y-%m-%d %H:%M:%S"),
+		'ext': extention[-1].upper(),
 	}
 
 
@@ -97,23 +145,18 @@ def organise_by_extenstion(file_list):
 
 
 def format_size(size_in_bytes):
-	match size_in_bytes:
-		case 
-	""" format_size
-		converts output to readable
-		1024 bytes = 1KB
-		1024 KB = 1MB
-		1024 MB = 1GB
 	"""
-	pass
+	Transforms general output in bytes into readable sizes.
+	Returns size in KB, MB or GB
+	"""
+	if size_in_bytes >= (1_024 ** 3):
+		return f"{size_in_bytes / (1_024 ** 3):.2f} GB"
+	elif size_in_bytes > (1_024 ** 2):
+		return f"{size_in_bytes / (1_024 ** 2):.2f} MB"
+	elif size_in_bytes > 1_024:
+		return f"{size_in_bytes / 1_024:.2f} KB"
+	else:
+		return f"{size_in_bytes} bytes"
 
-# if __name__ == "__main__":
-# 	main():
-
-
-
-dict ={}
-dict = get_file_info(r'/Users/timothydhoe/Syntra/2025_DS_VDO/Automate the Boring Stuff with Python.pdf')
-
-for keys, values in dict.items():
-	print(f"{keys}: {values}")
+if __name__ == "__main__":
+	main()
