@@ -237,6 +237,7 @@ def get_folder_structure(folder):
     file_counter = 0
     # Travers all the branches of the selected folder.
     for (root, dirs, files) in os.walk(os.path.join(folder), topdown=True):
+        # TODO: add up sizes to display a grand total
         print(f"Path: {root}")
         print(f"\t📂 Folders:")
         print_list(dirs)
