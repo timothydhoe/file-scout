@@ -66,26 +66,26 @@ def main():
                     pass
                 else:
                     next_dir = instruct[1]
-                    change_directory(user_dir, next_dir)
+                    user_dir = change_directory(user_dir, next_dir)
+                    print(f"You've arrived at {user_dir}")
         
 
-            if instruct[0] == "info" and instruct[1] == "folder":
+            elif instruct[0] == "info" and instruct[1] == "folder":
                 # if sys.arg[1] is a folder indeed:
                 show_folders(user_dir)
                 foldername = input("which folder?")
                 get_folder_info(user_dir)
                 # TODO: write and add function (like file_info)
 
-            if instruct[0] == "info" and instruct[1] == "file":
+            elif instruct[0] == "info" and instruct[1] == "file":
                 show_files(user_dir)
                 filename = input("what file? ")
                 # TODO: raise warning/error when file not present
                 file_info = get_file_info(os.path.join(user_dir, filename))
                 print_dict(file_info)
 
-            if instruct[0] == "where" and instruct[1] == "am" and instruct[2] == "i":
-                pass
-                # os.getcwd()
+            elif instruct[0] == "where" and instruct[1] == "am" and instruct[2] == "i":
+                print(os.getcwd())
 
 #
 # Functions
@@ -292,8 +292,8 @@ def files_by_type(filepath):
     pass
 
 def change_directory(path, dir_name):
-    os.chdir(os.path.join(path,dir_name))
-    return f"you've moved to {os.path.join(path,dir_name)}"
+    new_path = os.path.join(path, dir_name)
+    return new_path
 
 
 #
