@@ -10,6 +10,8 @@ Programme that helps users become more intimate with their files and folders.
 from datetime import datetime
 import os
 
+# TODO: Cleanup (dirs vs files) naming
+# TODO: cleanup variable naming
 
 def main():
     """
@@ -39,10 +41,10 @@ def main():
             user_instructions()
 
         # One arguments
-        if len(instruct) == 1:
+        elif len(instruct) == 1:
             if instruct[0] == 'q' or instruct[0] == 'quit':
                 print(f"\nBye bye... 👋\n")
-                break
+                os._exit(0)
 
             if instruct[0] == "list":
                 print()
@@ -54,14 +56,13 @@ def main():
 
             if instruct[0] == 'scan':
                 folders, files = scan_directory(user_dir)
-                # print_files_and_folders(folders, files)
 
             # TODO: add order by extension
 
             # TODO: Add "show_hidden_files()"
 
         # Multiple arguments
-        if len(instruct) > 1:
+        elif len(instruct) >= 2:
             if instruct[0] == "change":
                 if not instruct [1]:
                     print(f"usage: 'change <DIRECTORY>'")
@@ -73,13 +74,13 @@ def main():
                     next_dir = instruct[1]
                     user_dir = change_directory(user_dir, next_dir)
                     print(f"You've arrived at {user_dir}\n")
-        
 
             elif instruct[0] == "info" and instruct[1] == "folder":
                 # if sys.arg[1] is a folder indeed:
                 show_folders(user_dir)
                 foldername = input("what folder? ")
-                folder_info = get_folder_info(os.path.join(user_dir, foldername))
+                print()
+                folder_info = get_folder_structure(os.path.join(user_dir, foldername))
                 print_dict(folder_info)
 
             elif instruct[0] == "info" and instruct[1] == "file":
@@ -129,16 +130,16 @@ def user_instructions():
     # Zero argument commands
     print(f"\nOne of the following commands might help:")
     # One argument commands
-    print(f"\n--- One argument commands ---")
+    print(f"\n          --- One argument commands ---")
     print(f"'q' for quit.")
-    print(f"'list' to list all files and folders.")
-    print(f"'scan' to deep dive into your folder structure.")
-    print(f"'where am i' to print the current working directory")
+    print(f"'list'                  list all files and folders.")
+    print(f"'scan'                  deep dive into your folder structure.")
+    print(f"'where am i'            print the current working directory")
     # Multiple argument commands
-    print(f"\n--- Multiple argument commands ---")
-    print(f"'change <foldername>' to navigate inside the folder")
-    print(f"'info <foldername>' to get more information on the folder.")
-    print(f"'info <filename>' to get more information on the file.\n")
+    print(f"\n        --- Multiple argument commands ---")
+    print(f"'change <foldername>'   navigate inside the folder")
+    print(f"'info <foldername>'     more information on the folder structure.")
+    print(f"'info <filename>'       more information on the file.\n")
 
 
 def user_command():
@@ -225,16 +226,40 @@ def print_files_and_folders(folders, files):
             print(f"{f}", end="\t")
         print("\n\n")
 
-
-
-def get_folder_info(folder):
-    # TODO
+def get_folder_structure(folder):
     """
     Returns a dict with path, size and last modified information.
     """
     stats = os.stat(os.path.join(folder))
     date = datetime.fromtimestamp(stats.st_mtime)
 
+    dir_counter = 0
+    file_counter = 0
+    # Travers all the branches of the selected folder.
+    for (root, dirs, files) in os.walk(os.path.join(folder), topdown=True):
+        print(f"Path: {root}")
+        print(f"\t📂 Folders:")
+        print_list(dirs)
+        print("\n\t📑 Files:")
+        print_list(files)
+        print("---\n")
+
+    # Return only useful info.
+    return {
+        'path': folder,
+        'size': format_size(stats.st_size),
+        'modified': date.strftime("%Y-%m-%d %H:%M:%S"),
+    }
+
+
+def get_folder_info(folder):
+    """
+    Returns a dict with path, size and last modified information.
+    """
+    stats = os.stat(os.path.join(folder))
+    date = datetime.fromtimestamp(stats.st_mtime)
+
+    # Return only useful info.
     return {
         'path': folder,
         'size': format_size(stats.st_size),
@@ -261,32 +286,38 @@ def get_file_info(filepath):
 
 def show_folders(path):
     """
-    Takes a directory path and prints two lists containing files and folders.
-    Returns two lists of both folders and files.
+    Takes a directory path and prints a list of folders.
+    Returns a list of the names of the folders.
     """
     folders = [item for item in os.listdir(path)
                if os.path.isdir(os.path.join(path, item)) and not item.startswith('.')]
 
     print("📂 Folders:")
-    for f in folders:
-        print(f"  {f}")
-    print("\n")
+    if not folders:
+        print(f"There are no folders in {path}.")
+    else:
+        for f in folders:
+            print(f"  {f}")
+        print("\n")
     
     return folders
 
 
 def show_files(path):
     """
-    Takes a directory path and prints two lists containing files and folders.
-    Returns two lists of both folders and files.
+    Takes a directory path and prints a list of files.
+    Returns a list containing the names of the files.
     """
     files = [item for item in os.listdir(path)
              if os.path.isfile(os.path.join(path, item)) and not item.startswith('.')]
 
     print("\n📑 Files:")
-    for f in files:
-        print(f"  {f}")
-    print("\n")
+    if not files:
+        print(f"There are no files in {path}")
+    else:
+        for f in files:
+            print(f"  {f}")
+        print("\n")
     
     return files
 
@@ -339,6 +370,16 @@ def print_dict(dict):
     for key, value in dict.items():
         print(f"{key}: {value}")
     print()
+
+def print_list(list):
+    """
+    Takes a list as input and prints it out.
+    """
+    if not list:
+        print(f"Nothing found.")
+    else:
+        for i in list:
+            print(f"\t{i}")
 
 def organise_by_extenstion(file_list):
     # TODO: organise output by extension
