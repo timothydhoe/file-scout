@@ -49,14 +49,13 @@ def main():
 
 			if instruct[0] == "help":
 				print(f"\nI don't know where I am or what my purpose in life is, but at least I have you... 👀\n")
-				user_instructions()
 
 			if instruct[0] == 'scan':
 				scan_directory(user_dir)
 
 		# Multiple arguments
 		if len(instruct) >= 2:
-			if sys.arg[0] == "cd":
+			if instruct[0] == "cd":
 				#TODO: add and write function
 				pass
 		
@@ -79,6 +78,10 @@ def main():
 # Functions
 #
 def initiate_directory(cwd):
+	"""
+	Function gets called when the programme starts.
+	Returns Directory of user's choice.
+	"""
 	print("What would you like to do?")
 	print("Type 'C' to remain at your current directory.")
 	print("Type 'H' to go to your HOME directory.\n")
@@ -101,6 +104,9 @@ def initiate_directory(cwd):
 
 
 def user_instructions():
+	"""
+	Prints out different command statements that are used in this programme.
+	"""
 	# Zero argument commands
 	print(f"Type nothing to be insulted... \n")
 	# One argument commands
