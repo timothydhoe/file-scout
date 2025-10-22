@@ -46,15 +46,19 @@ def main():
 
             if instruct[0] == "list":
                 print()
-                show_files_and_folders(user_dir)
+                folders, files = show_files_and_folders(user_dir)
+                print_files_and_folders(folders, files)
 
             if instruct[0] == "help":
                 print(f"\nI don't know where I am or what my purpose in life is, but at least I have you... 👀\n")
 
             if instruct[0] == 'scan':
-                scan_directory(user_dir)
+                folders, files = scan_directory(user_dir)
+                # print_files_and_folders(folders, files)
 
             # TODO: add order by extension
+
+            # TODO: Add "show_hidden_files()"
 
         # Multiple arguments
         if len(instruct) > 1:
@@ -62,30 +66,30 @@ def main():
                 if not instruct [1]:
                     print(f"usage: 'change <DIRECTORY>'")
                 elif instruct[1] == "..":
-                    # TODO: go up one folder
-                    pass
+                    user_dir = os.path.dirname(user_dir)
+                    print(user_dir)
+                    print(f"You've arrived at {user_dir}\n")
                 else:
                     next_dir = instruct[1]
                     user_dir = change_directory(user_dir, next_dir)
-                    print(f"You've arrived at {user_dir}")
+                    print(f"You've arrived at {user_dir}\n")
         
 
             elif instruct[0] == "info" and instruct[1] == "folder":
                 # if sys.arg[1] is a folder indeed:
                 show_folders(user_dir)
-                foldername = input("which folder?")
-                get_folder_info(user_dir)
-                # TODO: write and add function (like file_info)
+                foldername = input("what folder? ")
+                folder_info = get_folder_info(os.path.join(user_dir, foldername))
+                print_dict(folder_info)
 
             elif instruct[0] == "info" and instruct[1] == "file":
                 show_files(user_dir)
                 filename = input("what file? ")
-                # TODO: raise warning/error when file not present
                 file_info = get_file_info(os.path.join(user_dir, filename))
                 print_dict(file_info)
 
             elif instruct[0] == "where" and instruct[1] == "am" and instruct[2] == "i":
-                print(os.getcwd())
+                print(f"👉 {user_dir}\n")
 
 #
 # Functions
@@ -102,18 +106,19 @@ def initiate_directory(cwd):
         user_input = input("directory: ")
 
         if user_input.lower() == 'h':
-            cwd = os.environ['HOME']
+            user_dir = os.path.expanduser('~')
             break
         elif user_input.lower() == 'c':
-            return cwd
+            user_dir = cwd
+            break
         else:
             print("Type 'C' to remain at your current directory.")
             print("Type 'H' to go to your HOME directory.\n")
 
-    print(f"\nYou are currently at:\n\t👉 {cwd}\n")
-    print(f"Ready to explore the files and folders?")
-    print(f"Type 'help' to see more commands.\n")
-    return cwd
+    print(f"\nYou are currently at:\n\t👉 {user_dir}\n")
+    return user_dir
+    # print(f"Ready to explore the files and folders?")
+    # print(f"Type 'help' to see more commands.\n")
 
 
 def user_instructions():
@@ -128,6 +133,7 @@ def user_instructions():
     print(f"'q' for quit.")
     print(f"'list' to list all files and folders.")
     print(f"'scan' to deep dive into your folder structure.")
+    print(f"'where am i' to print the current working directory")
     # Multiple argument commands
     print(f"\n--- Multiple argument commands ---")
     print(f"'change <foldername>' to navigate inside the folder")
@@ -146,10 +152,10 @@ def user_command():
     print(f"What would you like to do?")
     user_input = input("cmd: ")
     for i in user_input.lower():
-        if i.isalpha():
+        if not i.isspace():
             tmp_cmd += i
         # in case of space (multiple commands)
-        elif i.isspace():
+        else:
             commands_list.append(tmp_cmd)
             tmp_cmd = ""
 
@@ -164,8 +170,8 @@ def scan_directory(path):
 
     Returns two dicts of folders and files.
     """
-    folder_info_dict = {}
-    file_info_dict = {}
+    folders_info_dict = {}
+    files_info_dict = {}
 
     folders, files = show_files_and_folders(path)
     print("\n📂 Folders:")
@@ -173,18 +179,18 @@ def scan_directory(path):
         print(f"No folders to display.\n")
     else:
         for folder in folders:
-            folder_info_dict = get_folder_info(os.path.join(path, folder))
-            print_dict(folder_info_dict)
+            folders_info_dict = get_folder_info(os.path.join(path, folder))
+            print_dict(folders_info_dict)
 
     print("\n📑 Files:")
     if not files:
         print(f"No files to display.\n")
     else:
         for file in files:
-            file_info_dict = get_file_info(os.path.join(path, file))
-            print_dict(file_info_dict)
+            files_info_dict = get_file_info(os.path.join(path, file))
+            print_dict(files_info_dict)
 
-    # return folders_info_dict, files_info_dict
+    return folders_info_dict, files_info_dict
 
 
 def show_files_and_folders(path):
@@ -197,29 +203,40 @@ def show_files_and_folders(path):
     files = [item for item in os.listdir(path)
              if os.path.isfile(os.path.join(path, item)) and not item.startswith('.')]
 
-    print("\n📂 Folders:")
-    for f in folders:
-        print(f"/{f}", end="\t")
-    print()
-    print("\n📑 Files:")
-    for f in files:
-        print(f"{f}", end="\t")
-    print()
-    
     return folders, files
 
+def print_files_and_folders(folders, files):
+    """
+    FILL IN
+    """
+    print("\n📂 Folders:")
+    if not folders:
+        print(f"No folder to display.\n")
+    else:
+        for f in folders:
+            print(f"/{f}", end="\t")
+        print()
 
-def get_folder_info(folderpath):
+    print("\n📑 Files:")
+    if not files:
+        print(f"No files to display.\n")
+    else:
+        for f in files:
+            print(f"{f}", end="\t")
+        print("\n\n")
+
+
+
+def get_folder_info(folder):
     # TODO
     """
-    Takes a folderpath.
     Returns a dict with path, size and last modified information.
     """
-    stats = os.stat(os.path.join(folderpath))
+    stats = os.stat(os.path.join(folder))
     date = datetime.fromtimestamp(stats.st_mtime)
 
     return {
-        'path': folderpath,
+        'path': folder,
         'size': format_size(stats.st_size),
         'modified': date.strftime("%Y-%m-%d %H:%M:%S"),
     }
@@ -242,22 +259,6 @@ def get_file_info(filepath):
     }
 
 
-def show_files(path):
-    """
-    Takes a directory path and prints two lists containing files and folders.
-    Returns two lists of both folders and files.
-    """
-    files = [item for item in os.listdir(path)
-             if os.path.isfile(os.path.join(path, item)) and not item.startswith('.')]
-
-    print("\n📑 Files:")
-    for f in files:
-        print(f"  {f}")
-    print("")
-    
-    return files
-
-
 def show_folders(path):
     """
     Takes a directory path and prints two lists containing files and folders.
@@ -269,9 +270,26 @@ def show_folders(path):
     print("📂 Folders:")
     for f in folders:
         print(f"  {f}")
-    print("\n📑 Files:")
+    print("\n")
     
     return folders
+
+
+def show_files(path):
+    """
+    Takes a directory path and prints two lists containing files and folders.
+    Returns two lists of both folders and files.
+    """
+    files = [item for item in os.listdir(path)
+             if os.path.isfile(os.path.join(path, item)) and not item.startswith('.')]
+
+    print("\n📑 Files:")
+    for f in files:
+        print(f"  {f}")
+    print("\n")
+    
+    return files
+
 
 
 def files_by_type(filepath):
