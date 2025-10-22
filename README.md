@@ -3,5 +3,14 @@
 The programme that helps users become more 🫶 **intimate** 🫶 with their files and folders.
 
 
-I'm using `match/case`, so you'll need **Python 3.10+** to make this work.
-# TODO: propose change + add requirements.txt
+
+[TODO]: <> (Explain functions and general flow of the programme.)
+
+
+## Inspiration
+
+This project was inspired by basic commandline functions and python's `os` module.
+
+## License
+
+This project is open source and available under the MIT License.
