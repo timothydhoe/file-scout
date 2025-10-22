@@ -33,7 +33,7 @@ def main():
 		instruct = user_command()
 		
 		# Zero arguments
-		if len(instruct) == 0:
+		if instruct[0] == "":
 			print(f"Cowboy...")
 			user_instructions()
 
@@ -86,7 +86,7 @@ def initiate_directory(cwd):
 	print("Type 'C' to remain at your current directory.")
 	print("Type 'H' to go to your HOME directory.\n")
 	while True:
-		user_input = input("Input: ")
+		user_input = input("directory: ")
 
 		if user_input.lower() == 'h':
 			cwd = os.environ['HOME']
@@ -108,7 +108,7 @@ def user_instructions():
 	Prints out different command statements that are used in this programme.
 	"""
 	# Zero argument commands
-	print(f"Type nothing to be insulted... \n")
+	print(f"\nOne of the following commands might help:\n")
 	# One argument commands
 	print(f"\n--- One argument commands ---")
 	print(f"'q' for quit.")
@@ -118,10 +118,7 @@ def user_instructions():
 	print(f"\n--- Multiple argument commands ---")
 	print(f"'cd <foldername>' to navigate inside the folder")
 	print(f"'info <foldername>' to get more information on the folder.")
-	print(f"'info <filename>' to get more information on the file.")
-
-	print(f"What would you like to do: ")
-	return input("Input: ")
+	print(f"'info <filename>' to get more information on the file.\n")
 
 
 def user_command():
@@ -133,7 +130,7 @@ def user_command():
 	tmp_cmd = ""
 
 	print(f"What would you like to do?")
-	user_input = input("Input: ")
+	user_input = input("cmd: ")
 	for i in user_input.lower():
 		if i.isalpha:
 			tmp_cmd += i
