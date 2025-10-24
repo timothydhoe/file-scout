@@ -46,26 +46,25 @@ def main():
                 print(f"\nBye bye... 👋\n")
                 os._exit(0)
 
-            if instruct[0] == "list":
+            elif instruct[0] == "list":
                 print()
                 folders, files = show_files_and_folders(user_dir)
                 print_files_and_folders(folders, files)
 
-            if instruct[0] == "help":
+            elif instruct[0] == "help":
                 print(f"\nI don't know where I am or what my purpose in life is, but at least I have you... 👀\n")
 
-            if instruct[0] == 'scan':
+            elif instruct[0] == 'scan':
                 folders, files = scan_directory(user_dir)
 
-            # TODO: add order by extension
-
-            # TODO: Add "show_hidden_files()"
+            elif instruct[0] == 'organise':
+                organise_by_extention(user_dir)
 
         # Multiple arguments
         elif len(instruct) >= 2:
-            if instruct[0] == "change":
+            if instruct[0] == "enter":
                 if not instruct [1]:
-                    print(f"usage: 'change <DIRECTORY>'")
+                    print(f"usage: 'enter <DIRECTORY>'")
                 elif instruct[1] == "..":
                     user_dir = os.path.dirname(user_dir)
                     print(user_dir)
@@ -88,6 +87,10 @@ def main():
                 filename = input("what file? ")
                 file_info = get_file_info(os.path.join(user_dir, filename))
                 print_dict(file_info)
+
+            elif instruct[0] == 'reveal' and instruct[1] == 'folders':
+                pass
+                # TODO: Add "show_hidden_files()"
 
             elif instruct[0] == "where" and instruct[1] == "am" and instruct[2] == "i":
                 print(f"👉 {user_dir}\n")
@@ -133,13 +136,13 @@ def user_instructions():
     print(f"\n          --- One argument commands ---")
     print(f"'q' for quit.")
     print(f"'list'                  list all files and folders.")
-    print(f"'scan'                  deep dive into your folder structure.")
+    print(f"'scan'                  display all files and folders with details.")
     print(f"'where am i'            print the current working directory")
     # Multiple argument commands
     print(f"\n        --- Multiple argument commands ---")
-    print(f"'change <foldername>'   navigate inside the folder")
-    print(f"'info <foldername>'     more information on the folder structure.")
-    print(f"'info <filename>'       more information on the file.\n")
+    print(f"'enter <foldername>'   navigate inside the folder")
+    print(f"'info folder'     more information on the folder structure.")
+    print(f"'info file'       more information on the file.\n")
 
 
 def user_command():
@@ -150,12 +153,11 @@ def user_command():
     commands_list = []
     tmp_cmd = ""
 
-    print(f"What would you like to do?")
-    user_input = input("cmd: ")
+    # print(f"What would you like to do?")
+    user_input = input("cmd >>> ")
     for i in user_input.lower():
         if not i.isspace():
             tmp_cmd += i
-        # in case of space (multiple commands)
         else:
             commands_list.append(tmp_cmd)
             tmp_cmd = ""
@@ -295,10 +297,10 @@ def show_folders(path):
 
     print("📂 Folders:")
     if not folders:
-        print(f"There are no folders in {path}.")
+        print(f"\tThere are no folders in {path}\n")
     else:
         for f in folders:
-            print(f"  {f}")
+            print(f"\t{f}")
         print("\n")
     
     return folders
@@ -314,37 +316,29 @@ def show_files(path):
 
     print("\n📑 Files:")
     if not files:
-        print(f"There are no files in {path}")
+        print(f"\tThere are no files in {path}\n")
     else:
         for f in files:
-            print(f"  {f}")
+            print(f"\t{f}")
         print("\n")
     
     return files
 
 
-
-def files_by_type(filepath):
-    # TODO: 
-    """ Organise files by extension in dictionary
-
-    files_by_type = {
-        ".jpg": [
-            {'path': 'path/name.jpg', 'size': '1024MB', 'modified': '...' },
-            {'path': 'path/name.jpg', 'size': '1024MB', 'modified': '...' },
-        ]
-        ".pdf": [
-            {'path': 'path/name.pdf', 'size': '1024MB', 'modified': '...' },
-            {'path': 'path/name.pdf', 'size': '1024MB', 'modified': '...' },
-        ]
-    }
-    """
-    pass
-
 def change_directory(path, dir_name):
     new_path = os.path.join(path, dir_name)
     return new_path
 
+
+def organise_by_extention(filepath):
+    """
+    Takes a dict of files
+    Returns a list of files in cwd, organised by extention.
+    """
+    folders, files = show_files_and_folders(filepath)
+    for file in files:
+        print_dict(get_file_info(os.path.join(filepath, file)))
+    # print(labeled_files)
 
 #
 # Helper Functions
@@ -377,17 +371,13 @@ def print_list(list):
     Takes a list as input and prints it out.
     """
     if not list:
-        print(f"Nothing found.")
+        print(f"\tNothing found.")
     else:
         for i in list:
             print(f"\t{i}")
 
-def organise_by_extenstion(file_list):
-    # TODO: organise output by extension
-    """ organise_by_extenstion(file_list)
-        takes list from scan_directorty and groups files by extension
-    """
-    pass
+
+
 
 def print_title():
     """
