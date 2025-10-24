@@ -60,6 +60,10 @@ def main():
             elif instruct[0] == 'organise':
                 organise_by_extention(user_dir)
 
+            elif instruct[0] == 'reveal':
+                revealed_folders, revealed_files = reveal_files_and_folders(user_dir)
+                print_files_and_folders(revealed_folders, revealed_files)
+
         # Multiple arguments
         elif len(instruct) >= 2:
             if instruct[0] == "enter":
@@ -87,10 +91,6 @@ def main():
                 filename = input("what file? ")
                 file_info = get_file_info(os.path.join(user_dir, filename))
                 print_dict(file_info)
-
-            elif instruct[0] == 'reveal' and instruct[1] == 'folders':
-                pass
-                # TODO: Add "show_hidden_files()"
 
             elif instruct[0] == "where" and instruct[1] == "am" and instruct[2] == "i":
                 print(f"👉 {user_dir}\n")
@@ -136,13 +136,15 @@ def user_instructions():
     print(f"\n          --- One argument commands ---")
     print(f"'q' for quit.")
     print(f"'list'                  list all files and folders.")
+    print(f"'organise'              list all files organised by extension.")
+    print(f"'reveal'               show all hidden files and folders")
     print(f"'scan'                  display all files and folders with details.")
     print(f"'where am i'            print the current working directory")
     # Multiple argument commands
     print(f"\n        --- Multiple argument commands ---")
     print(f"'enter <foldername>'   navigate inside the folder")
-    print(f"'info folder'     more information on the folder structure.")
-    print(f"'info file'       more information on the file.\n")
+    print(f"'info folder'          more information on the folder structure.")
+    print(f"'info file'            more information on the file.\n")
 
 
 def user_command():
@@ -205,6 +207,18 @@ def show_files_and_folders(path):
                if os.path.isdir(os.path.join(path, item)) and not item.startswith('.')]
     files = [item for item in os.listdir(path)
              if os.path.isfile(os.path.join(path, item)) and not item.startswith('.')]
+
+    return folders, files
+
+def reveal_files_and_folders(path):
+    """
+    Takes a directory path and prints two lists containing files and folders.
+    Returns two lists of both folders and files.
+    """
+    folders = [item for item in os.listdir(path)
+               if os.path.isdir(os.path.join(path, item))]
+    files = [item for item in os.listdir(path)
+             if os.path.isfile(os.path.join(path, item))]
 
     return folders, files
 
