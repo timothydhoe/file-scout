@@ -1,4 +1,4 @@
-# File Scout
+# File Scout (FS-26)
 
 The programme that helps users become more 🫶 **intimate** 🫶 with their files and folders.
 
@@ -7,8 +7,16 @@ The programme that helps users become more 🫶 **intimate** 🫶 with their fil
 
 ## TODO
 
+1. Make TODO.md to keep track of changes.
+2. replace commands with original CP/M-86 commands.
+
+
 Change commands to original CP/M-86 Commands.
 [List of commands here.](https://vintagecomputer.net/epson/PX-8/px8-BASIC.pdf)
+
+[PIP Commands](https://en.wikipedia.org/wiki/Peripheral_Interchange_Program)
+
+
 
 ## CP/M Operating System as inspiration
 
@@ -19,6 +27,7 @@ A more in depth document of the OG Operating System can be found [here](http://w
 
 ## What It Does
 
+TODO: update with new direction
 File Scout lets you explore directories and uncover their dirtiest secrets:
 - See what file types dominate your folders
 - Find forgotten files and size hogs
