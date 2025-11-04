@@ -13,6 +13,18 @@ import os
 # TODO: Cleanup (dirs vs files) naming
 # TODO: cleanup variable naming
 
+# A CP/M-86 command line is composed of a command, an optional command tail, and a carriage return.
+# The COMMAND identifies a command(programme) to be executed.
+COMMANDS = ['DIR', 'ERA', 'SAVE', 'TYPE', 'USER', 'CONFIG', 'FILINK', 'PIP', ]
+# PIP, or Peripheral Interchange Commands, was a utility to transfer files on and between devices on Digital Equipment Corporation's computers.
+PIP_PARAMETERS = ['[B]', '[Dn]', '[E]', '[F]', '[Gn]', '[R]', '[V]', '[W]']
+# The optional command TAIL can consist of a drive specification, one or more file specifacations, and some options or parameters.
+TAILS = []
+# A carriage return is needed to complete the command.
+RETURN ['\n']
+# Special symbols can be sued to define command syntax.
+SYMBOLS = ['{','}',, '|','<cr>', 'RW', 'RO', 'SYS', 'DIR'. '*', '?']
+
 def main():
     """
     Programme asks user for starting directory.
