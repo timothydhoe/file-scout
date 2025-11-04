@@ -2,6 +2,21 @@
 
 The programme that helps users become more 🫶 **intimate** 🫶 with their files and folders.
 
+*This project is still in research/development stage.*
+
+
+## TODO
+
+Change commands to original CP/M-86 Commands.
+[List of commands here.](https://vintagecomputer.net/epson/PX-8/px8-BASIC.pdf)
+
+## CP/M Operating System as inspiration
+
+If you don't know what CP/M is and what it stands for I recommend a short read on [Wikipedia here](https://en.wikipedia.org/wiki/CP/M).
+
+A more in depth document of the OG Operating System can be found [here](http://www.cpm.z80.de/randyfiles/DRI/CPM-86_Command_Summary.pdf).
+
+
 ## What It Does
 
 File Scout lets you explore directories and uncover their dirtiest secrets:
