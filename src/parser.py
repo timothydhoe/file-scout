@@ -9,11 +9,11 @@ Programme that helps users become more intimate with their files and folders.
 
 
 """
-- [ ] Start with just recognizing commands: DIR, TYPE, ERA, STAT
+- [ ] recognizing commands: DIR, TYPE, ERA, STAT
 - [ ] -> simple arguments: TYPE filename.txt
 - [ ] -> wildcards: DIR *.py
 - [ ] -> parameters: DIR [V]
-- [ ] Then ???
+- [ ] -> bookmarkers/markers -> implement how? Function how?
 """
 
 class Command:
