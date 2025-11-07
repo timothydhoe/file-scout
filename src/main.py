@@ -3,13 +3,17 @@ FILE SCOUT
 ----------
 file: main.py
 
-Programme that helps users become more intimate with their files and folders.
+Programme (REPL) that helps users become more intimate with their files and folders.
 
 """
 
 from datetime import datetime
 import os
 
+from parser import Command
+import utils
+
+"""
 # TODO: Cleanup (dirs vs files) naming
 # TODO: cleanup variable naming
 
@@ -24,6 +28,7 @@ TAILS = []
 RETURN ['\n']
 # Special symbols can be sued to define command syntax.
 SYMBOLS = ['{','}',, '|','<cr>', 'RW', 'RO', 'SYS', 'DIR'. '*', '?']
+"""
 
 def main():
     """
@@ -37,7 +42,7 @@ def main():
     instruct = ""		# User instructions
 
     # Define user starting directory
-    print_title()
+    utils.print_title()
     
     print(f"\nYou are currently at:\n\t👉 {cwd}\n")
     print("")
@@ -45,67 +50,21 @@ def main():
     
     # Main user control flow
     while True:
-        instruct = []
-        instruct = user_command()
-        
-        # Zero arguments
-        if instruct[0] == "":
-            user_instructions()
+        user_input = input("cmd >>> ")
+        cmd = Command.input_to_cmd(user_input)
 
-        # One arguments
-        elif len(instruct) == 1:
-            if instruct[0] == 'q' or instruct[0] == 'quit':
-                print(f"\nBye bye... 👋\n")
-                os._exit(0)
+        if cmd.command == "":
+            utils.user_instructions()
 
-            elif instruct[0] == "list":
-                print()
-                folders, files = show_files_and_folders(user_dir)
-                print_files_and_folders(folders, files)
+        elif cmd.command == "Q" or cmd.command == "QUIT":
+            print(f"Bye bye... 👋")
+            os._exit(0)
 
-            elif instruct[0] == "help":
-                print(f"\nI don't know where I am or what my purpose in life is, but at least I have you... 👀\n")
+        elif cmd.command == "DIR":
+            folders, files = show_files_and_folders(user_dir)
 
-            elif instruct[0] == 'scan':
-                folders, files = scan_directory(user_dir)
+        print_files_and_folders(folders, files)
 
-            elif instruct[0] == 'organise':
-                organise_by_extention(user_dir)
-
-            elif instruct[0] == 'reveal':
-                revealed_folders, revealed_files = reveal_files_and_folders(user_dir)
-                print_files_and_folders(revealed_folders, revealed_files)
-
-        # Multiple arguments
-        elif len(instruct) >= 2:
-            if instruct[0] == "enter":
-                if not instruct [1]:
-                    print(f"usage: 'enter <DIRECTORY>'")
-                elif instruct[1] == "..":
-                    user_dir = os.path.dirname(user_dir)
-                    print(user_dir)
-                    print(f"You've arrived at {user_dir}\n")
-                else:
-                    next_dir = instruct[1]
-                    user_dir = change_directory(user_dir, next_dir)
-                    print(f"You've arrived at {user_dir}\n")
-
-            elif instruct[0] == "info" and instruct[1] == "folder":
-                # if sys.arg[1] is a folder indeed:
-                show_folders(user_dir)
-                foldername = input("what folder? ")
-                print()
-                folder_info = get_folder_structure(os.path.join(user_dir, foldername))
-                print_dict(folder_info)
-
-            elif instruct[0] == "info" and instruct[1] == "file":
-                show_files(user_dir)
-                filename = input("what file? ")
-                file_info = get_file_info(os.path.join(user_dir, filename))
-                print_dict(file_info)
-
-            elif instruct[0] == "where" and instruct[1] == "am" and instruct[2] == "i":
-                print(f"👉 {user_dir}\n")
 
 #
 # Functions
@@ -135,28 +94,6 @@ def initiate_directory(cwd):
     return user_dir
     # print(f"Ready to explore the files and folders?")
     # print(f"Type 'help' to see more commands.\n")
-
-
-def user_instructions():
-    """
-    Prints out different command statements that are used in this programme.
-    """
-    print(f"-------------------------------------------")
-    # Zero argument commands
-    print(f"\nOne of the following commands might help:")
-    # One argument commands
-    print(f"\n          --- One argument commands ---")
-    print(f"'q' for quit.")
-    print(f"'list'                  list all files and folders.")
-    print(f"'organise'              list all files organised by extension.")
-    print(f"'reveal'               show all hidden files and folders")
-    print(f"'scan'                  display all files and folders with details.")
-    print(f"'where am i'            print the current working directory")
-    # Multiple argument commands
-    print(f"\n        --- Multiple argument commands ---")
-    print(f"'enter <foldername>'   navigate inside the folder")
-    print(f"'info folder'          more information on the folder structure.")
-    print(f"'info file'            more information on the file.\n")
 
 
 def user_command():
@@ -403,22 +340,6 @@ def print_list(list):
             print(f"\t{i}")
 
 
-
-
-def print_title():
-    """
-    Prints the File Scout ASCII art title.
-    """
-    print(r"""
-      ______ _ _         _____                 _   
-     |  ____(_) |       / ____|               | |  
-     | |__   _| | ___  | (___   ___ ___  _   _| |_ 
-     |  __| | | |/ _ \  \___ \ / __/ _ \| | | | __|
-     | |    | | |  __/  ____) | (_| (_) | |_| | |_ 
-     |_|    |_|_|\___| |_____/ \___\___/ \__,_|\__|
-                                       
-    """)
-    print(f"The programme to get more intimate with your files and folders.\n")
 
 #
 # Run the programme
