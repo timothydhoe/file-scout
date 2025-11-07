@@ -17,14 +17,40 @@ Programme that helps users become more intimate with their files and folders.
 """
 
 class Command:
-    def __init__(self, command, filespec=None, marker=None, parameters=None):
+    def __init__(self, command, filespec=None, marker=None, params=None):
         self.command = command
         self.filespec = filespec
         self.marker = marker
-        self.parameters = parameters
+        self.params = params
+
 
     def __repr__(self):
-        return f"Command(cmd={self.command}, file={self.filespec}, marker={self.marker}, para={self.parameters})"
+        return f"Command(cmd={self.command}, file={self.filespec}, marker={self.marker}, para={self.params})"
+
+
+    @classmethod
+    def input_to_cmd(cls, user_input):
+        tokens = user_input.strip().upper().split()
+
+        command = tokens[0] if tokens else ""
+        filespec = None
+        marker = None
+        params = []
+
+        for token in tokens[1:]:
+            if token.startswith('[') and token.endswith(']'):
+                params.append(token[1:-1])  # add all but brackets
+            elif ':' in token:
+                bookmark, filespec = token.split(':', 1)
+            else:
+                filespec = token
+
+        return cls(command, filespec, marker, params)
+
+cmd = Command.input_to_cmd("DIR *.py")
+print(cmd)
+print(cmd.command)
+print(cmd.filespec)
 
 
 def parse_command(user_input):
@@ -42,22 +68,20 @@ def parse_command(user_input):
     
     command = components[0] if components else ""
     filespec = None
-    # bookmark = None
+    # marker = None
     parameter = []
     
     # Parse tokens
-    for token in tokens[1:]
+    for token in tokens[1:]:
+        pass
         # if token starts with [ and ends with ]:
             #-> parameter
         # elif : in token
             #-> what does it do/mean?
         # else:
-            filespec = token
+            # filespec = token
 
-    return {
-        'command': command,
-        'args': arguments
-    }
+    return Command(command, filespec, marker, params)
     # Split into command and arguments
     # Handle wildcards, drive letters, parameters
     # Return structured command dict
