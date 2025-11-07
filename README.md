@@ -4,11 +4,31 @@ The programme that helps users become more 🫶 **intimate** 🫶 with their fil
 
 *This project is still in research/development stage.*
 
+## Table of Contents
 
-## TODO
+1. TODO: make a TOC!
+2. TODO: Keep it updated as well...
 
-1. Make TODO.md to keep track of changes.
-2. replace commands with original CP/M-86 commands.
+
+## Commands
+
+based on CP/M terminology (from those docs):
+
+`COMMAND` - the action (DIR, TYPE, ERA)
+`COMMAND TAIL` - everything after the command
+`FILE SPECIFICATION (filespec)` - the filename/pattern (*.TXT, README.MD)
+`DRIVE SPECIFICATION` - the drive letter (A:, B:)
+    *This will be used to bookmark certain folders. As we won't be switching drives*
+`PARAMETERS` - options in brackets ([V], [B])
+
+So, parsing `DIR A:*.TXT [V]` gives:
+```bash
+'command': 'DIR',
+'drive': 'A:',
+'filespec': '*.TXT',
+'parameters': ['V']
+```
+
 
 
 Change commands to original CP/M-86 Commands.
@@ -18,7 +38,7 @@ Change commands to original CP/M-86 Commands.
 
 
 
-## CP/M Operating System as inspiration
+## <a name=cpm-os>CP/M Operating System as inspiration</a>
 
 If you don't know what CP/M is and what it stands for I recommend a short read on [Wikipedia here](https://en.wikipedia.org/wiki/CP/M).
 
