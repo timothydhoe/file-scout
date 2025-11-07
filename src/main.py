@@ -32,9 +32,10 @@ SYMBOLS = ['{','}',, '|','<cr>', 'RW', 'RO', 'SYS', 'DIR'. '*', '?']
 
 def main():
     """
-    Programme asks user for starting directory.
-    From there, it proposes a couple of actions to move directory,
-    retrieve file information, etc.
+    REPL (Read-Eval-Print Loop) for File Scout.
+    
+    Asks user for starting directory, then provides an interactive
+    CP/M-style command interface for exploring files and folders
     """
 
     # Define variables
@@ -46,7 +47,8 @@ def main():
     
     print(f"\nYou are currently at:\n\t👉 {cwd}\n")
     print("")
-    user_dir = initiate_directory(cwd)
+    # Remove this option and just start in cwd?
+    cwd = initiate_directory(cwd)
     
     # Main user control flow
     while True:
@@ -61,10 +63,45 @@ def main():
             os._exit(0)
 
         elif cmd.command == "DIR":
-            folders, files = show_files_and_folders(user_dir)
+            folders, files = show_files_and_folders(cwd)
+
+        elif cmd.command == "TYPE":
+            # Display file contents
+            pass
+
+        elif cmd.command == "ERA":
+            # Delete files
+            pass
+
+        elif cmd.command == "STAT":
+            # Display file stats
+            # TODO: needs fixing...
+            pass
+            # folders = get_folder_info()
+            # files = get_file_info()
+
+        # User File management
+        elif cmd.command == "CD":
+            pass
+            # change directory
+        elif cmd.command == "MV":
+            pass
+            # Move file
+            # [R] parameter needed for recursive? Folders.
+        elif cmd.command == "CD":
+            pass
+            # change directory
+
 
         print_files_and_folders(folders, files)
 
+        # TODO: add other commands (TYPE, ERA, STAT, etc.)
+
+
+"""
+I'm using the functions below still and I will slowly transition out of them, I'm sure.
+The plan is to clean this up slowly as the programme starts to make more sense in my head. 
+"""
 
 #
 # Functions
@@ -81,17 +118,17 @@ def initiate_directory(cwd):
         user_input = input("directory: ")
 
         if user_input.lower() == 'h':
-            user_dir = os.path.expanduser('~')
+            cwd = os.path.expanduser('~')
             break
         elif user_input.lower() == 'c':
-            user_dir = cwd
+            cwd = cwd
             break
         else:
             print("Type 'C' to remain at your current directory.")
             print("Type 'H' to go to your HOME directory.\n")
 
-    print(f"\nYou are currently at:\n\t👉 {user_dir}\n")
-    return user_dir
+    print(f"\nYou are currently at:\n\t👉 {cwd}\n")
+    return cwd
     # print(f"Ready to explore the files and folders?")
     # print(f"Type 'help' to see more commands.\n")
 
