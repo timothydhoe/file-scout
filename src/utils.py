@@ -7,20 +7,45 @@ All helper functions live here.
 
 """
 
-def matches_pattern(filespec, pattern):
+import os
+
+WILDCARD_TOKENS = ['*', '?', '>'] # TODO: finish list gradually
+
+
+def matches_pattern(filespec):  # add cwd to arguments.
     """
     Match filename against pattern with wildcards (* and ?)
 
     TODO: add "<", ">", ":"
     """
+    cwd = os.getcwd()
     filespec = filespec.upper()
-    pattern = pattern.upper()
+    wildcard = ""
 
     # handle not pattern first?
         # -> eg. text_here.txt
-    if "*" not in filespec:
-        return None
+    for token in WILDCARD_TOKENS:
+        if token in filespec:
+            wildcard = token
         
+    # when token found:
+    if wildcard:
+        # TODO: Also handle doubles ->(FILENAME.svg.jpg)
+        filename, extension = filespec.split('.')
+        if filename == "*":
+            return [item for item in os.listdir(cwd)]
+        else:
+            pass
+            # find 
+
+
+        if '*' in filespec:
+            pass
+                
+        if '*.' in filespec:
+            pass
+            # find position of '.'
+
     # if '*' in filespec:
         # if '*.' -> check filename extension. [pos *:]
         # elif -> '.*' -> check filename
@@ -28,7 +53,9 @@ def matches_pattern(filespec, pattern):
     # if '?' in filespec:
         # replace '?' with any character.
 
-
+test = matches_pattern("hello_world.py")
+test = matches_pattern("hello_world.*")
+test = matches_pattern("*.py")
 
 
 def user_instructions():
@@ -40,18 +67,9 @@ def user_instructions():
     print("="*50)
 
     print(f"\n📂 FILE OPERATIONS")
-    print("  DIR")
-    print("  DIR *.py")
-    print("'list'                  list all files and folders.")
-    print("'organise'              list all files organised by extension.")
-    print("'reveal'               show all hidden files and folders")
-    print("'scan'                  display all files and folders with details.")
-    print(f"'where am i'            print the current working directory")
-    # Multiple argument commands
-    print(f"\n        --- Multiple argument commands ---")
-    print(f"'enter <foldername>'   navigate inside the folder")
-    print(f"'info folder'          more information on the folder structure.")
-    print(f"'info file'            more information on the file.\n")
+    print("  DIR                    List all files and folders")
+    print("  DIR *.py               List files matching pattern")
+
 
 
 def print_title():
