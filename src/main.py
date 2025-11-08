@@ -10,6 +10,7 @@ Programme (REPL) that helps users become more intimate with their files and fold
 from datetime import datetime
 import os
 
+import commands
 from parser import Command
 import utils
 
@@ -63,7 +64,8 @@ def main():
             os._exit(0)
 
         elif cmd.command == "DIR":
-            folders, files = show_files_and_folders(cwd)
+            # folders, files = show_files_and_folders(cwd) ---- OLD FUNCTION!
+            commands.cmd_dir(cwd, cmd)
 
         elif cmd.command == "TYPE":
             # Display file contents
@@ -80,7 +82,7 @@ def main():
             # folders = get_folder_info()
             # files = get_file_info()
 
-        # User File management
+        # User File Navigation 🧭
         elif cmd.command == "CD":
             pass
             # change directory
