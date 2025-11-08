@@ -1,94 +1,112 @@
 # File Scout (FS-26)
 
-The programme that helps users become more 🫶 **intimate** 🫶 with their files and folders.
+*Interactive REPL for hands-on file exploration.*
+Rediscover what's hiding in your file system.
 
-*This project is still in research/development stage.*
+**status**: In active development. I'm sure this document will make more sense in the future 😝*
 
-## Table of Contents
+## What it does
 
-1. TODO: make a TOC!
-2. TODO: Keep it updated as well...
+File Scout lets you explore directories with retro CP/M-style commands and uncover patterns you didn't know existed:
+<!-- The patterns that we didn't know existed sounds very data analyst-like. How to implement some machine learning or other analysis in here? -->
+- Navigate folders with classic commands (DIR, TYPE, ERA)
+- Use wildcards to filter files (`*.py`, `README.*`)
+- Bookmark frequently-used paths (A:, B:, C:)
+- Find forgotten files, size hogs, and temporal patterns
+- Analyze folder structures without leaving the command line
 
+## Getting started
 
-## Commands
-
-based on CP/M terminology (from those docs):
-
-`COMMAND` - the action (DIR, TYPE, ERA)
-`COMMAND TAIL` - everything after the command
-`FILE SPECIFICATION (filespec)` - the filename/pattern (*.TXT, README.MD)
-`DRIVE SPECIFICATION` - the drive letter (A:, B:)
-    *This will be used to bookmark certain folders. As we won't be switching drives*
-`PARAMETERS` - options in brackets ([V], [B])
-
-So, parsing `DIR A:*.TXT [V]` gives:
 ```bash
-'command': 'DIR',
-'drive': 'A:',
-'filespec': '*.TXT',
-'parameters': ['V']
-```
-
-
-
-Change commands to original CP/M-86 Commands.
-[List of commands here.](https://vintagecomputer.net/epson/PX-8/px8-BASIC.pdf)
-
-[PIP Commands](https://en.wikipedia.org/wiki/Peripheral_Interchange_Program)
-
-
-
-## <a name=cpm-os>CP/M Operating System as inspiration</a>
-
-If you don't know what CP/M is and what it stands for I recommend a short read on [Wikipedia here](https://en.wikipedia.org/wiki/CP/M).
-
-A more in depth document of the OG Operating System can be found [here](http://www.cpm.z80.de/randyfiles/DRI/CPM-86_Command_Summary.pdf).
-
-
-## What It Does
-
-TODO: update with new direction
-File Scout lets you explore directories and uncover their dirtiest secrets:
-- See what file types dominate your folders
-- Find forgotten files and size hogs
-- Track when files were last touched
-- Navigate and analyse without leaving the command line
-
-## Getting Started
-
-```
 cd file-scout
 python3 src/main.py
 ```
-Choose your starting directory, then explore with simple commands.
 
-## Commands
+<!-- This option might be removed in future versions and just start the REPL in the cwd. -->
+Choose your starting directory (Current or Home), then explore!
 
-**Navigation**
-- `list` - Show files and folders in current directory
-- `change <folder>` - Move into a folder
-- `where am i` - Show current location
+## Command Syntax
 
-**Discovery**
-- `scan` - display all files and folders with details.
-- `info file` - Detailed file information
-- `info folder` - Detailed information on the folder structure.
+File Scout uses **CP/M-style syntax** for that vintage computing feel:
+```bash
+COMMAND [filespec] [marker:] [parameters]
+```
 
-**Other**
-- `help` - Show available commands
-- `q` - Quit
+**Examples:**
+```bash
+DIR                # List all files
+DIR *.py           # Show only Python files
+DIR A:*.txt        # Show .txt files from marker A:
+TYPE readme.md     # Display file contents
+ERA oldfile.pdf    # Delete a file
+```
+
+**Command Components:**
+- `COMMAND` - The action (DIR, TYPE, ERA, STAT)
+- `filespec` - Filename or pattern with wildcards (`*.txt`, `file?.py`)
+- `marker:` - Quick access to saved paths (A:, B:, C:)
+- `parameters` - Options in brackets `[V]`, `[B]`
+
+## Currently Implemented
+
+- [x] DIR - List files with wildcard(*) support
+- [x] File/folder navigation
+- [x] File information display
+- [ ] TYPE - Display file contents
+- [ ] ERA - Delete files
+- [ ] Marker management (A:, B:, C:)
+- [ ] PIP - File operations
+- [ ] Discovery insights (size hogs, forgotten files, etc.)
+
+
+## CP/M Operating System Inspiration
+
+**CP/M** (Control Program for Microcomputers) was a pioneering OS from the 1970s-80s that influenced MS-DOS and modern command-line interfaces.
+
+File Scout takes inspiration from CP/M's elegant command syntax and file management philosophy.
+
+**Learn more:**
+- [CP/M on Wikipedia](https://en.wikipedia.org/wiki/CP/M)
+- [CP/M-86 Command Summary](http://www.cpm.z80.de/randyfiles/DRI/CPM-86_Command_Summary.pdf)
+- [PIP (Peripheral Interchange Program)](https://en.wikipedia.org/wiki/Peripheral_Interchange_Program)
+- [Epson PX-8 CP/M Manual](https://vintagecomputer.net/epson/PX-8/px8-BASIC.pdf)
 
 
 ## Built With
 
-Python 3 + `os` module + `datetime`
+Python 3 | `os` module | `datetime`
 
-## Inspiration
 
-This project was inspired by basic commandline functions and python's `os` module.
-Built to practice Python fundamentals (dicts, lists, functions) while creating something genuinely fun for understanding your file system.
+## Why This Project?
+
+Built to practice Python fundamentals (classes, dicts, lists, functions, file I/O) while creating something genuinely useful and fun. Combines technical learning with computing history appreciation.
 
 
 ## License
 
-MIT License.
+MIT License. I think.
+
+
+
+
+## Future: Data Analysis & Insights
+
+*Coming later, after core commands are working properly!*
+
+File Scout will eventually apply **data science techniques** to help you understand your file system:
+
+**Pattern Discovery**
+- Detect file naming conventions and habits
+- Identify creation time patterns
+- Analyze size distributions and anomalies
+
+**ML-Powered Features**
+- Duplicate detection with fuzzy matching
+- File clustering by similarity
+- Anomaly detection (suspicious files)
+- Auto-categorization suggestions
+
+**Temporal Analysis**
+- Track file system evolution over time
+- Predict disk space trends
+- Identify workflow patterns
