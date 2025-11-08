@@ -7,6 +7,26 @@ All helper functions live here.
 
 """
 
+def matches_pattern(filespec, pattern):
+    """
+    Match filename against pattern with wildcards (* and ?)
+
+    TODO: add "<", ">", ":"
+    """
+    filespec = filespec.upper()
+    pattern = pattern.upper()
+
+    # handle not pattern first?
+        # -> eg. text_here.txt
+    if "*" not in filespec:
+        return None
+        
+    # if '*' in filespec:
+        # if '*.' -> check filename extension. [pos *:]
+        # elif -> '.*' -> check filename
+
+    # if '?' in filespec:
+        # replace '?' with any character.
 
 
 
@@ -15,16 +35,17 @@ def user_instructions():
     """
     Prints out different command statements that are used in this programme.
     """
-    print(f"-------------------------------------------")
-    # Zero argument commands
-    print(f"\nOne of the following commands might help:")
-    # One argument commands
-    print(f"\n          --- One argument commands ---")
-    print(f"'q' for quit.")
-    print(f"'list'                  list all files and folders.")
-    print(f"'organise'              list all files organised by extension.")
-    print(f"'reveal'               show all hidden files and folders")
-    print(f"'scan'                  display all files and folders with details.")
+    print("\n" + "="*50)
+    print(f"FILE SCOUT - CP/M COMMAND REFERENCE")
+    print("="*50)
+
+    print(f"\n📂 FILE OPERATIONS")
+    print("  DIR")
+    print("  DIR *.py")
+    print("'list'                  list all files and folders.")
+    print("'organise'              list all files organised by extension.")
+    print("'reveal'               show all hidden files and folders")
+    print("'scan'                  display all files and folders with details.")
     print(f"'where am i'            print the current working directory")
     # Multiple argument commands
     print(f"\n        --- Multiple argument commands ---")
