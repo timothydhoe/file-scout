@@ -3,7 +3,7 @@ FILE SCOUT
 ----------
 file: scanner.py
 
-Programme that helps users become more intimate with their files and folders.
+Parser
 
 """
 
@@ -87,11 +87,6 @@ def parse_command(user_input):
     # Return structured command dict
 
 
-def execute_command(user_input):
-    pass
-    # Map to existing functions
-    # DIR -> show_files_and_folders()
-    # STAT -> get_file_info()
-    # ...
+
 
 
