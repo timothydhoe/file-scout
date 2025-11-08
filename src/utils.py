@@ -12,6 +12,7 @@ import os
 WILDCARD_TOKENS = ['*', '?', '>'] # TODO: finish list gradually
 
 
+# TODO: Should this be handled in the class Command?
 def matches_pattern(filespec):  # add cwd to arguments.
     """
     Match filename against pattern with wildcards (* and ?)
@@ -22,8 +23,7 @@ def matches_pattern(filespec):  # add cwd to arguments.
     filespec = filespec.upper()
     wildcard = ""
 
-    # handle not pattern first?
-        # -> eg. text_here.txt
+    # other solution than looping?
     for token in WILDCARD_TOKENS:
         if token in filespec:
             wildcard = token
@@ -32,12 +32,20 @@ def matches_pattern(filespec):  # add cwd to arguments.
     if wildcard:
         # TODO: Also handle doubles ->(FILENAME.svg.jpg)
         filename, extension = filespec.split('.')
+        file_list = []
         if filename == "*":
-            return [item for item in os.listdir(cwd)]
+            # TODO: Returns all files -> only return with extension.
+            for item in os.listdir(cwd):
+                ext_check = item.split(".")
+                if ext_check[-1].upper() == extension:
+                    file_list.append(item)
+                
+        if file_list:
+            return file_list
         else:
-            pass
-            # find 
-
+            return f"No items found with extension .{extension}"
+        # return [item for item in os.listdir(cwd) if item.split(".")]
+        
 
         if '*' in filespec:
             pass
@@ -53,9 +61,10 @@ def matches_pattern(filespec):  # add cwd to arguments.
     # if '?' in filespec:
         # replace '?' with any character.
 
-test = matches_pattern("hello_world.py")
-test = matches_pattern("hello_world.*")
-test = matches_pattern("*.py")
+print(matches_pattern("hello_world.py")) # -> None
+print(matches_pattern("hello_world.*")) # -> None
+print(matches_pattern("*.md")) # -> print list of all .md
+print(matches_pattern("*.txt")) # -> print list of all .txt
 
 
 def user_instructions():
@@ -69,6 +78,7 @@ def user_instructions():
     print(f"\n📂 FILE OPERATIONS")
     print("  DIR                    List all files and folders")
     print("  DIR *.py               List files matching pattern")
+    # TODO: Add more commands.
 
 
 
