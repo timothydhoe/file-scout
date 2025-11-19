@@ -41,7 +41,7 @@ class Command:
             if token.startswith('[') and token.endswith(']'):
                 params.append(token[1:-1])  # add all but brackets
             elif ':' in token:
-                bookmark, filespec = token.split(':', 1)
+                bookmark, filespec = token.split(':', 1) # max one split
             else:
                 filespec = token
 

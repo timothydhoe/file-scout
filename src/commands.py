@@ -10,6 +10,8 @@ nwd = working directory
 
 """
 
+import os
+
 def execute_command(user_input):
     pass
     # Map to existing functions
@@ -27,7 +29,7 @@ def cmd_dir(cwd, cmd):
     return folders, files
 
 def cmd_cd(cwd, nwd, cmd):
-    """"Execute the CD command. Navigation logic.""""
+    """Execute the CD command. Navigation logic."""
     pass
 
 def cmd_era(cwd, cmd):

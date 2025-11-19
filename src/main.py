@@ -53,7 +53,7 @@ def main():
     
     # Main user control flow
     while True:
-        user_input = input("cmd >>> ")
+        user_input = input(f"{cwd} >>> ")
         cmd = Command.input_to_cmd(user_input)
 
         if cmd.command == "":

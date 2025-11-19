@@ -54,8 +54,9 @@ ERA oldfile.pdf    # Delete a file
 - [x] File information display
 - [ ] TYPE - Display file contents
 - [ ] ERA - Delete files
+- [ ] REN - Rename files (eg. newname.txt=oldname.txt)
 - [ ] Marker management (A:, B:, C:)
-- [ ] PIP - File operations
+- [ ] PIP - File operations (eg. PIP `B:=A:file.txt` to copy files)
 - [ ] Discovery insights (size hogs, forgotten files, etc.)
 
 
